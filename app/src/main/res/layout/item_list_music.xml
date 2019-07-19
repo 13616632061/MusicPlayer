@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/layout_item"
+    android:layout_height="@dimen/listItemH"
+    android:background="@color/color_ffffff">
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="@dimen/dimenWidth70"
+        android:layout_height="@dimen/dimenWidth70"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/mangin15"
+        android:src="@drawable/ic_launcher_background" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        style="@style/titleText"
+        android:layout_toRightOf="@+id/iv_icon"
+        android:text="音乐名字"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_person"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/mangin10"
+        android:layout_marginLeft="@dimen/mangin15"
+        android:layout_toRightOf="@+id/iv_icon"
+        android:text="音乐名字"
+        android:textColor="@color/color_707070"
+        android:textSize="@dimen/textSize12" />
+
+    <ImageView
+        android:layout_width="@dimen/dimenWidth40"
+        android:layout_height="@dimen/dimenWidth40"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/mangin15"
+        android:src="@mipmap/play" />
+</RelativeLayout>

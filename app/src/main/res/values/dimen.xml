@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="textSize14">14sp</dimen>
+    <dimen name="textSize12">12sp</dimen>
+    <dimen name="textSize10">10sp</dimen>
+    <dimen name="mangin15">15dp</dimen>
+    <dimen name="mangin10">10dp</dimen>
+    <dimen name="titleBarHeight">48dp</dimen>
+    <dimen name="listItemH">80dp</dimen>
+    <dimen name="dimenWidth70">70dp</dimen>
+    <dimen name="dimenWidth40">40dp</dimen>
+    <dimen name="dimenWidth100">100dp</dimen>
+    <dimen name="dimenWidth200">200dp</dimen>
+</resources>
