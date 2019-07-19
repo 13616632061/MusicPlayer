@@ -23,7 +23,8 @@ public class MediaPlayHelp {
      * 静态内部类实现单例
      */
     private MediaPlayHelp(Context mContext) {
-        this.mContext = mContext;
+        //处理当播放页面退出时，造成内存泄漏
+        this.mContext = mContext.getApplicationContext();
         mMediaPlayer = new MediaPlayer();
     }
 
