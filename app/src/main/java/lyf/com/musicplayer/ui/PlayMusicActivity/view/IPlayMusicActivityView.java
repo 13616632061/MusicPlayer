@@ -1,5 +1,7 @@
 package lyf.com.musicplayer.ui.PlayMusicActivity.view;
 
+import lyf.com.musicplayer.bean.MusicInfo;
+
 /**
  * Created by Administrator on 2019/7/18.
  */
@@ -12,7 +14,7 @@ public interface IPlayMusicActivityView {
 
     void setMusicName(String name);
 
-    void playMusic(String path);
+    void playMusic(MusicInfo musicInfo);
 
 
 }

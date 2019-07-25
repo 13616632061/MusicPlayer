@@ -1,8 +1,12 @@
 package lyf.com.musicplayer.view;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.Build;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -22,6 +26,8 @@ import com.bumptech.glide.request.RequestOptions;
 import java.io.IOException;
 
 import lyf.com.musicplayer.R;
+import lyf.com.musicplayer.bean.MusicInfo;
+import lyf.com.musicplayer.service.MusicService;
 import lyf.com.musicplayer.utils.MediaPlayHelp;
 
 /**
@@ -35,6 +41,10 @@ public class PlayMusic extends FrameLayout {
     private RelativeLayout layout_play;
     private boolean isPlaying;
     private String mPath;
+    private Intent mMusicService;
+    private MusicService.MusicBind mMusicBind;
+    private boolean isBindService;
+    private MusicInfo mMusicInfo;
 
     private MediaPlayHelp mMediaPlayHelp;
 
@@ -115,22 +125,24 @@ public class PlayMusic extends FrameLayout {
         iv_circle_icon.startAnimation(mPlayMusicAnimation);
         iv_tip_cion.startAnimation(mPlayTipAnimation);
 
+        startMusicServer();
+
         /**
          * 1.判断当前音乐是否已经在播放
          * 2.是，调用start
          * 3.当前播放的音乐不是需要播放的音乐，调用setpath
          */
-        if (mMediaPlayHelp.getMusicPath() != null && mMediaPlayHelp.getMusicPath().equals(path)) {
-            mMediaPlayHelp.setPlayMusci();
-        } else {
-            mMediaPlayHelp.setMusciPath(path);
-            mMediaPlayHelp.setOnMediaPlayHelpPreparedListener(new MediaPlayHelp.OnMediaPlayHelpPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    mMediaPlayHelp.setPlayMusci();
-                }
-            });
-        }
+//        if (mMediaPlayHelp.getMusicPath() != null && mMediaPlayHelp.getMusicPath().equals(path)) {
+//            mMediaPlayHelp.setPlayMusci();
+//        } else {
+//            mMediaPlayHelp.setMusciPath(path);
+//            mMediaPlayHelp.setOnMediaPlayHelpPreparedListener(new MediaPlayHelp.OnMediaPlayHelpPreparedListener() {
+//                @Override
+//                public void onPrepared(MediaPlayer mp) {
+//                    mMediaPlayHelp.setPlayMusci();
+//                }
+//            });
+//        }
     }
 
     /**
@@ -141,8 +153,17 @@ public class PlayMusic extends FrameLayout {
         iv_play.setVisibility(VISIBLE);
         iv_circle_icon.clearAnimation();
         iv_tip_cion.startAnimation(mStopTipAnimation);
-        mMediaPlayHelp.setStopMusci();
+//        mMediaPlayHelp.setPauseMusci();
+        mMusicBind.PauseMuscic();
+    }
 
+    /**
+     * 设置音乐信息
+     *
+     * @param mMusicInfo
+     */
+    public void setmMusicInfo(MusicInfo mMusicInfo) {
+        this.mMusicInfo = mMusicInfo;
     }
 
     /**
@@ -153,5 +174,37 @@ public class PlayMusic extends FrameLayout {
     public void setMusicIcon(String url) {
         Glide.with(mContext).load(url).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(iv_circle_icon);
     }
+
+    /**
+     * 开启音乐服务
+     */
+    private void startMusicServer() {
+
+        if (mMusicService == null) {
+            mMusicService = new Intent(mContext, MusicService.class);
+            mContext.startService(mMusicService);
+        } else {
+            mMusicBind.playMusic();
+        }
+//        当前未绑定，绑定服务，同时修改绑定状态
+        if (!isBindService) {
+            isBindService = true;
+            mContext.bindService(mMusicService, serviceConnection, Context.BIND_ABOVE_CLIENT);
+        }
+    }
+
+    ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mMusicBind = (MusicService.MusicBind) service;
+            mMusicBind.setMusic(mMusicInfo);
+            mMusicBind.playMusic();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 
 }

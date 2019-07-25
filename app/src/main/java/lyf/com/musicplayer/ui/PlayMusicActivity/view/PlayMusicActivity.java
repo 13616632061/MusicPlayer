@@ -47,7 +47,7 @@ public class PlayMusicActivity extends BaseActivity implements IPlayMusicActivit
         mPresenter.setMusicIcon(mMusicInfo.getPicture());
         mPresenter.setMusicName(mMusicInfo.getName());
 
-        mPresenter.playMusic(mMusicInfo.getUrl());
+        mPresenter.playMusic(mMusicInfo);
     }
 
     @OnClick({R.id.iv_back})
@@ -77,7 +77,8 @@ public class PlayMusicActivity extends BaseActivity implements IPlayMusicActivit
     }
 
     @Override
-    public void playMusic(String path) {
-        playMusic.playMusic(path);
+    public void playMusic(MusicInfo musicInfo) {
+        playMusic.setmMusicInfo(musicInfo);
+        playMusic.playMusic(musicInfo.getUrl());
     }
 }

@@ -9,6 +9,10 @@ import java.io.PipedReader;
 
 /**
  * Created by Administrator on 2019/7/18.
+ * 播放器创建3中方式：
+ * 1.直接在activity中创建，音乐与activity绑定，activity运行时播放音乐，activity退出时音乐就会停止
+ * 2.通过全局的单例类，与application绑定，application（程序）被杀死时，音乐停止播放
+ * 3.（推荐）通过service进行播放，service运行时播放音乐，service被杀死时，音乐停止播放
  */
 
 public class MediaPlayHelp {
@@ -39,15 +43,6 @@ public class MediaPlayHelp {
         return mMediaPlayHelp;
     }
 
-//    private static class MediaPlayHelpHolder {
-//        private static Context mContext;
-//        private static final MediaPlayHelp instance = new MediaPlayHelp(mContext);
-//    }
-//
-//    public static MediaPlayHelp getInstance(Context mContext) {
-//        MediaPlayHelpHolder.mContext = mContext;
-//        return MediaPlayHelpHolder.instance;
-//    }
 
     /**
      * 步骤
@@ -58,11 +53,12 @@ public class MediaPlayHelp {
 
     //当前需要播放的音乐
     public void setMusciPath(String path) {
-        mPath = path;
-        //音乐正在播放，重置播放状态
-        if (mMediaPlayer.isPlaying()) {
+
+        //音乐正在播放，或者切换音乐，重置播放状态
+        if (mMediaPlayer.isPlaying() || !path.equals(mPath)) {
             mMediaPlayer.reset();
         }
+        mPath = path;
         //设置播放路径
         try {
             mMediaPlayer.setDataSource(mContext, Uri.parse(path));
@@ -97,7 +93,7 @@ public class MediaPlayHelp {
     }
 
     //暂停
-    public void setStopMusci() {
+    public void setPauseMusci() {
         mMediaPlayer.pause();
     }
 

@@ -1,5 +1,6 @@
 package lyf.com.musicplayer.ui.PlayMusicActivity.presenter;
 
+import lyf.com.musicplayer.bean.MusicInfo;
 import lyf.com.musicplayer.ui.PlayMusicActivity.view.PlayMusicActivity;
 
 /**
@@ -30,7 +31,7 @@ public class PlayMusicActivityPresenter implements IPlayMusicActivityPresenterIm
     }
 
     @Override
-    public void playMusic(String path) {
-        mView.playMusic(path);
+    public void playMusic(MusicInfo musicInfo) {
+        mView.playMusic(musicInfo);
     }
 }
